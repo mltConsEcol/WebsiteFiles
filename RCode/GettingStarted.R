@@ -25,6 +25,6 @@ yoshiharuyamashita/blackburn
 #blogdown::new_site(dir = "BlackburnExperiment_1", 
 #                   theme = 'yoshiharuyamashita/blackburn',
 #                   format = 'toml')
-setwd("BlackburnExperiment_1/")
+#setwd("BlackburnExperiment_1/")
 blogdown::build_site()
 blogdown::serve_site()

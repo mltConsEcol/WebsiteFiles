@@ -23,7 +23,7 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
   subtitle = "Spatial Data • Conservation Science • Photography"
   brand = "MikeTreglia"
   googleAnalytics = "UA-6888715-1"
-  # disqus = "Your Disqus shortname"
+  disqus = "miketreglia "
   # CSS name for highlight.js
   highlightjs = "androidstudio"
   dateFormat = "02 Jan 2006"
@@ -61,12 +61,12 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
     weight = 5
     identifier = "code"
     url = "/code/"
-  #[[menu.main]]
-    #name = "Photography"
-    #pre = "<i class='fa fa-camera fa-fw'></i>"
-    #weight = 6
-    #identifier = "photography"
-    #url = "/photography/"
+  [[menu.main]]
+    name = "Photography"
+    pre = "<i class='fa fa-camera fa-fw'></i>"
+    weight = 6
+    identifier = "photography"
+    url = "/photography/"
   [[menu.main]]
     name = "Posts"
     pre = "<i class='fa fa-list fa-fw'></i>"
