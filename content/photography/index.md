@@ -34,109 +34,109 @@ Photography is a hobby and a passion for me. I try to take my camera on various 
 
 <div id="norway">
     <a href="images/Bergen_Norway_20180112_009.JPG"  data-gallery>
-        <img src="images/thumbs/Bergen_Norway_20180112_009.JPG">
+        <img src="images/thumbs/Bergen_Norway_20180112_009.jpg">
     </a>
     <a href="images/Bergen_Norway_20180112_027.JPG"  data-gallery>
-        <img src="images/thumbs/Bergen_Norway_20180112_027.JPG">
+        <img src="images/thumbs/Bergen_Norway_20180112_027.jpg">
     </a>
     <a href="images/Bergen_Norway_20180112_031.JPG"  data-gallery>
-		<img src="images/thumbs/Bergen_Norway_20180112_031.JPG">
+		<img src="images/thumbs/Bergen_Norway_20180112_031.jpg">
     </a>
     <a href="images/Bergen_Norway_20180112_043.JPG" data-gallery>
-        <img src="images/thumbs/Bergen_Norway_20180112_043.JPG">
+        <img src="images/thumbs/Bergen_Norway_20180112_043.jpg">
     </a>
     <a href="images/Bergen_Norway_20180112_044.JPG" data-gallery>
-        <img src="images/thumbs/Bergen_Norway_20180112_044.JPG">
+        <img src="images/thumbs/Bergen_Norway_20180112_044.jpg">
     </a>
     <a href="images/Bergen_Norway_20180112_103.JPG"	data-gallery>
-        <img src="images/thumbs/Bergen_Norway_20180112_103.JPG">
+        <img src="images/thumbs/Bergen_Norway_20180112_103.jpg">
     </a>
     <a href="images/Bergen_Norway_20180112_128.JPG" data-gallery>
-		<img src="images/thumbs/Bergen_Norway_20180112_128.JPG">
+		<img src="images/thumbs/Bergen_Norway_20180112_128.jpg">
     </a>
     <a href="images/Bergen_Norway_20180112_145.JPG" data-gallery>
-        <img src="images/thumbs/Bergen_Norway_20180112_145.JPG">
+        <img src="images/thumbs/Bergen_Norway_20180112_145.jpg">
     </a>
     <a href="images/Bergen_Norway_20180112_150.JPG"  data-gallery>
-        <img src="images/thumbs/Bergen_Norway_20180112_150.JPG">
+        <img src="images/thumbs/Bergen_Norway_20180112_150.jpg">
     </a>
     <a href="images/Bergen_Norway_20180112_154.JPG" data-gallery>
-        <img src="images/thumbs/Bergen_Norway_20180112_154.JPG">
+        <img src="images/thumbs/Bergen_Norway_20180112_154.jpg">
     </a>
     <a href="images/Bergen_Norway_20180113_204.JPG" data-gallery>
-		<img src="images/thumbs/Bergen_Norway_20180113_204.JPG">
+		<img src="images/thumbs/Bergen_Norway_20180113_204.jpg">
     </a>
     <a href="images/Bergen_Norway_20180113_206.JPG" data-gallery>
-        <img src="images/thumbs/Bergen_Norway_20180113_206.JPG">
+        <img src="images/thumbs/Bergen_Norway_20180113_206.jpg">
     </a>
     <a href="images/Bergen_Norway_20180113_230.JPG" data-gallery>
-        <img src="images/thumbs/Bergen_Norway_20180113_230.JPG">
+        <img src="images/thumbs/Bergen_Norway_20180113_230.jpg">
     </a>
 	<a href="images/Bergen_Norway_20180113_240.JPG" data-gallery>
-        <img src="images/thumbs/Bergen_Norway_20180113_240.JPG">
+        <img src="images/thumbs/Bergen_Norway_20180113_240.jpg">
     </a>
 	<a href="images/Bergen_Norway_20180113_259.JPG" data-gallery>
-        <img src="images/thumbs/Bergen_Norway_20180113_259.JPG">
+        <img src="images/thumbs/Bergen_Norway_20180113_259.jpg">
     </a>
 	<a href="images/Bergen_Norway_20180113_276.JPG" data-gallery>
-        <img src="images/thumbs/Bergen_Norway_20180113_276.JPG">
+        <img src="images/thumbs/Bergen_Norway_20180113_276.jpg">
     </a>
 	<a href="images/Bergen_Norway_20180113_282.JPG" data-gallery>
-        <img src="images/thumbs/Bergen_Norway_20180113_282.JPG">
+        <img src="images/thumbs/Bergen_Norway_20180113_282.jpg">
     </a>
 	<a href="images/Bergen_Norway_20180113_304.JPG" data-gallery>
-        <img src="images/thumbs/Bergen_Norway_20180113_304.JPG">
+        <img src="images/thumbs/Bergen_Norway_20180113_304.jpg">
     </a>
 	<a href="images/Bergen_Norway_20180113_317.JPG" data-gallery>
-        <img src="images/thumbs/Bergen_Norway_20180113_317.JPG">
+        <img src="images/thumbs/Bergen_Norway_20180113_317.jpg">
     </a>
 	<a href="images/Bergen_Norway_20180113_322.JPG" data-gallery>
-        <img src="images/thumbs/Bergen_Norway_20180113_322.JPG">
+        <img src="images/thumbs/Bergen_Norway_20180113_322.jpg">
     </a>
 	<a href="images/Bergen_Norway_20180113_338.JPG" data-gallery>
-        <img src="images/thumbs/Bergen_Norway_20180113_338.JPG">
+        <img src="images/thumbs/Bergen_Norway_20180113_338.jpg">
     </a>
 	<a href="images/Bergen_Norway_20180113_347.JPG" data-gallery>
-        <img src="images/thumbs/Bergen_Norway_20180113_347.JPG">
+        <img src="images/thumbs/Bergen_Norway_20180113_347.jpg">
     </a>
 	<a href="images/Bergen_Norway_20180113_351.JPG" data-gallery>
-        <img src="images/thumbs/Bergen_Norway_20180113_351.JPG">
+        <img src="images/thumbs/Bergen_Norway_20180113_351.jpg">
     </a>
 	<a href="images/Bergen_Norway_20180114_401.JPG" data-gallery>
-        <img src="images/thumbs/Bergen_Norway_20180114_401.JPG">
+        <img src="images/thumbs/Bergen_Norway_20180114_401.jpg">
     </a>
 	<a href="images/Bergen_Norway_20180114_466.JPG" data-gallery>
-        <img src="images/thumbs/Bergen_Norway_20180114_466.JPG">
+        <img src="images/thumbs/Bergen_Norway_20180114_466.jpg">
     </a>
 	<a href="images/Bergen_Norway_20180114_478.JPG" data-gallery>
-        <img src="images/thumbs/Bergen_Norway_20180114_478.JPG">
+        <img src="images/thumbs/Bergen_Norway_20180114_478.jpg">
     </a>	
 	<a href="images/Bergen_Norway_20180114_483.JPG" data-gallery>
-        <img src="images/thumbs/Bergen_Norway_20180114_483.JPG">
+        <img src="images/thumbs/Bergen_Norway_20180114_483.jpg">
     </a>
 	<a href="images/Bergen_Norway_20180114_492.JPG" data-gallery>
-        <img src="images/thumbs/Bergen_Norway_20180114_492.JPG">
+        <img src="images/thumbs/Bergen_Norway_20180114_492.jpg">
     </a>	
 	<a href="images/Bergen_Norway_20180114_500.JPG" data-gallery>
-        <img src="images/thumbs/Bergen_Norway_20180114_500.JPG">
+        <img src="images/thumbs/Bergen_Norway_20180114_500.jpg">
     </a>
 	<a href="images/Bergen_Norway_20180114_516.JPG" data-gallery>
-        <img src="images/thumbs/Bergen_Norway_20180114_516.JPG">
+        <img src="images/thumbs/Bergen_Norway_20180114_516.jpg">
     </a>	
 	<a href="images/Bergen_Norway_20180114_572.JPG" data-gallery>
-        <img src="images/thumbs/Bergen_Norway_20180114_572.JPG">
+        <img src="images/thumbs/Bergen_Norway_20180114_572.jpg">
     </a>
 	<a href="images/Bergen_Norway_20180114_579.JPG" data-gallery>
-        <img src="images/thumbs/Bergen_Norway_20180114_579.JPG">
+        <img src="images/thumbs/Bergen_Norway_20180114_579.jpg">
     </a>	
 	<a href="images/Bergen_Norway_20180114_595.JPG" data-gallery>
-        <img src="images/thumbs/Bergen_Norway_20180114_595.JPG">
+        <img src="images/thumbs/Bergen_Norway_20180114_595.jpg">
     </a>
 	<a href="images/Bergen_Norway_20180114_614.JPG" data-gallery>
-        <img src="images/thumbs/Bergen_Norway_20180114_614.JPG">
+        <img src="images/thumbs/Bergen_Norway_20180114_614.jpg">
     </a>	
 	<a href="images/Bergen_Norway_20180114_622.JPG" data-gallery>
-        <img src="images/thumbs/Bergen_Norway_20180114_622.JPG">
+        <img src="images/thumbs/Bergen_Norway_20180114_622.jpg">
     </a>
 
 	
