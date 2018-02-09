@@ -131,9 +131,6 @@ Photography is a hobby and a passion for me. I try to take my camera on various 
     </a>	
 	<a href="images/Bergen_Norway_20180114_595.JPG" data-gallery>
         <img src="images/thumbs/Bergen_Norway_20180114_595.jpg">
-    </a>
-	<a href="images/Bergen_Norway_20180114_614.JPG" data-gallery>
-        <img src="images/thumbs/Bergen_Norway_20180114_614.jpg">
     </a>	
 	<a href="images/Bergen_Norway_20180114_622.JPG" data-gallery>
         <img src="images/thumbs/Bergen_Norway_20180114_622.jpg">
