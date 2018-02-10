@@ -20,7 +20,7 @@ Fitzgerald. Dissertation Title: *Multi-Scale Conservation in an Altered Landscap
 
 Masters of Science (2010) Texas A&amp;M
 University, Department of Wildlife and Fisheries, Advised by Dr. Lee
-Fitzgerald. Thesis Title: *A Translocated Population of the St. Croix Ground Lizard: Analyzing its Detection Probability and Investigating Its Impacts on the Local Prey Base* (<a href="Treglia 2010_Thesis.pdf">Click Here to view as a PDF</a>)
+Fitzgerald. Thesis Title: *A Translocated Population of the St. Croix Ground Lizard: Analyzing its Detection Probability and Investigating Its Impacts on the Local Prey Base* (<a href="Treglia2010_Thesis.pdf">Click Here to view as a PDF</a>)
 
 Bachelors of Science (2007) Cornell University, Department of Natural Resources.
 
