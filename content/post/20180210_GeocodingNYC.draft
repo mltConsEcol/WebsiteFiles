@@ -1,0 +1,13 @@
+---
+title: "Geocoding NYC from R"
+author: "Mike Treglia"
+date: 2018-02-09
+categories: ["Spatial"]
+tags: ["spatial", "geocoding", "R", "NYC"]
+---
+
+## Geocoding
+
+```{r}
+
+```
