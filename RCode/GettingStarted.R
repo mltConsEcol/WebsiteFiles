@@ -17,10 +17,8 @@ getwd()
 setwd("Blogdown_site_files/")
 
 blogdown::build_site()
-file.edit(".Rprofile")
 blogdown::serve_site()
 
-yoshiharuyamashita/blackburn
 
 #blogdown::new_site(dir = "BlackburnExperiment_1", 
 #                   theme = 'yoshiharuyamashita/blackburn',

@@ -14,7 +14,7 @@ In GIS and various other fields, Geocoding is a common operation. Not familar wi
 
 > Reverse geocoding is the process of converting geographic coordinates into a human-readable address.
 
-There are lots of services that functionally do the queries and spatial overlays to get users the information they need. Lots are free, or free up to a certain number of queries, or depending on the type of use (e.g., check out the [Google geocoding API](https://developers.google.com/maps/documentation/geocoding/intro), there are [OpenStreetMap](https://www.openstreetmap.org/) tools (e.g., Nominatim[https://wiki.openstreetmap.org/wiki/Nominatim]), and there is a [MapQuest Geocoding API](https://developer.mapquest.com/documentation/geocoding-api/)). A tricky thing is that these often serve out the best approximations and aggregations of data for large areas, whether it be globally, nationwide, etc. 
+There are lots of services that functionally do the queries and spatial overlays to get users the information they need. Lots are free, or free up to a certain number of queries, or depending on the type of use (e.g., check out the [Google geocoding API](https://developers.google.com/maps/documentation/geocoding/intro), there are [OpenStreetMap](https://www.openstreetmap.org/) tools (e.g., [Nominatim](https://wiki.openstreetmap.org/wiki/Nominatim), and there is a [MapQuest Geocoding API](https://developer.mapquest.com/documentation/geocoding-api/)). A tricky thing is that these often serve out the best approximations and aggregations of data for large areas, whether it be globally, nationwide, etc. 
 
 An opensource geocoding project called [Pelias](http://pelias.io/) had been developed by the former mapping and navigation company, [Mapzen](https://mapzen.com/), which was dedicated to opendata and opensource tools. Unfortunately the company [shut down recently](https://mapzen.com/blog/shutdown/). However, because their tools were open source, others could pick them up and deploy them fairly readily (realizing it's often not trivial, but if staff/expertise and infrastructure exist, it's doable). Thus, the [NYC Planning Labs](https://planninglabs.nyc/) contingent of the [NYC Department of City Planning](http://www1.nyc.gov/site/planning/index.page) spun up an instance of Pelias, using official NYC data, currently in Beta, called [GeoSearch](https://geosearch.planninglabs.nyc/). (**Note: still being in Beta, at the time of writing, GeoSearch is noted as not yet supported by the NYC Department of City Planning**)
 
@@ -24,7 +24,7 @@ Being in NYC, sometimes it's helpful to have an accurate geocoding service. It's
 
 Spatial tools in R have come a long way in recent years. For this work, since it deals with vector data (points), I went right for the [sf package](https://cran.r-project.org/web/packages/sf/index.html). This has been developed pretty recently (i.e., in the last few years) - if you're using [sp](https://cran.r-project.org/web/packages/sp/index.html), it's worth a look at sf for additional speed and functionality. If you haven't used sf it before, you can install it as you would any other package `install.packages("sf")`. Then you can load the package via `library(sf)`, or call the package explicitly (i.e., `sf::[function_name]`) as I've doen below.
 
-The function st_read lets you easily read in GeoJSON data, which is what GeoSearch serves returns. Here's an initial test, with the address for the Museum of the City of New York, just as a place I've been meaning to check out. I just followed the format from an example URL on the [API Docs page](https://geosearch.planninglabs.nyc/docs/). As you'll see, it throws an error.
+The function st_read lets you easily read in GeoJSON data, which is what GeoSearch returns. Here's an initial test, with the address for the Museum of the City of New York, just as a place I've been meaning to check out. I just followed the format from an example URL on the [API Docs page](https://geosearch.planninglabs.nyc/docs/). As you'll see, it throws an error.
 
 ```{r, eval=FALSE}
 sf::st_read("https://geosearch.planninglabs.nyc/v1/search?text=1220 Fifth Ave, New York, NY")
@@ -55,7 +55,7 @@ htmlwidgets::saveWidget(intmap1@map,
                         "geocodingnyc1_intmap1.html", selfcontained = TRUE)
 ```
 
-<iframe  title="A single address" width="400" height="400" src="geocodingnyc1_intmap1/index.html" frameborder="0" allowfullscreen></iframe>
+<iframe  title="A single address" width="600" height="400" src="geocodingnyc1_intmap1/index.html" frameborder="0" allowfullscreen></iframe>
 
 If we can automate replacement of spaces with the %20, that is hugely helpful for dealing with any amount of addresses, given how many spaces one would encounter. A quick search yielded [this suggestion on StackOverflow](https://stackoverflow.com/questions/40301888/replace-space-with-20-in-r/40301947#40301947): you can just use the 'URLencode' function in base R, as below.
 
@@ -98,7 +98,7 @@ htmlwidgets::saveWidget(intmap2@map,
 
 ```
 
-<iframe  title="Multiple Addresses" width="400" height="400" src="geocodingnyc1_intmap2/index.html" frameborder="0" allowfullscreen></iframe>
+<iframe  title="Multiple Addresses" width="600" height="400" src="geocodingnyc1_intmap2/index.html" frameborder="0" allowfullscreen></iframe>
 
 Interestingly, you'll notice a bunch of points at Snug Harbor Cultural Center, which presumably share the same address, but are distinct buildings.
 
@@ -124,7 +124,7 @@ At this point, I've gone through the basics of getting addresses geocoded in R u
 
 * I experimented with a few different addresses. One in particular was the Staten Island Zoo, 614 Broadway, Staten Island, NY 10310. Surprisingly, it returned 614 Broadway locations in Brooklyn and Manhattan as well as Staten Island. A [look at the query](https://geosearch.planninglabs.nyc/v1/search?text=614%20Broadway,%20Staten%20Island,%20NY%2010310) indicates the borough and postal code were correctly parsed. GeoSearch does note that not all parameters in Pelias are implemented, thus it might be a limitation at this point, though I'll be curious to dive in further. Note, users can refine searches based on things like proximity to a point, or within a bounding box. *I'm still somewhat new to APIs myself, and readily admit that I could just be missing something too*.
 
-* I tried a combination of very clear and direct addresses, as above, as well as some vague ones, like "1 Vanderbilt". Some different fields were provided/not provided for the specific queries, which caused issues in the `rbind`. For example, with specific addresses, 'match_type' was a field returned that did not come back with the very vague addresses.
+* I tried a combination of very clear and direct addresses, as above, as well as some vague ones, like "1 Vanderbilt". Some different fields were provided/not returned for the specific queries, which caused issues in the `rbind`. For example, with specific addresses, 'match_type' was a field returned that did not come back with the very vague addresses.
 
 * Regardless of everything else, if the system is given a query for something fairly vague, amidst a query for more specific places, a user would need to parse through which of the options given for a vague location they were looking for. Perhaps this could be done on a map, graphically, using the [mapedit package](https://cran.r-project.org/web/packages/mapedit/index.html). I don't have another clean way of doing that, but it's probably something that would need to be thought through if further developing this work in R.
 
