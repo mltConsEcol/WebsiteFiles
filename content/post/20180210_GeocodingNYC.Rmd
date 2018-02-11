@@ -40,9 +40,9 @@ sf::st_read("https://geosearch.planninglabs.nyc/v1/search?text=1220%20Fifth%20Av
 
 ```
 
-We can even plot it on a quick interactive map using the [mapview package](https://cran.r-project.org/web/packages/mapview/index.html). If you click on the point, you'll see all of the tabular information that comes with the point location. Some things are related to the geocoder/geocoding process, while things prefaced by 'pad_' are from the Property Address Directory](https://www1.nyc.gov/site/planning/data-maps/open-data.page#pad).  For example, 'pad_bbl' is the Borough,  Block and Lot number for the property, and 'pad_bin' is the Building ID Number.
+We can even plot it on a quick interactive map using the [mapview package](https://cran.r-project.org/web/packages/mapview/index.html). If you click on the point, you'll see all of the tabular information that comes with the point location. Some things are related to the geocoder/geocoding process, while things prefaced by 'pad_' are from the [Property Address Directory](https://www1.nyc.gov/site/planning/data-maps/open-data.page#pad).  For example, 'pad_bbl' is the Borough,  Block and Lot number for the property, and 'pad_bin' is the Building ID Number.
 
-```{r}
+```{r, results=FALSE}
 mapview::mapview(sf::st_read("https://geosearch.planninglabs.nyc/v1/search?text=1220%20Fifth%20Ave,%20New%20York,%20NY"))
 ```
 
@@ -55,7 +55,7 @@ htmlwidgets::saveWidget(intmap1@map,
                         "geocodingnyc1_intmap1.html", selfcontained = TRUE)
 ```
 
-<iframe  title="My Map" width="980" height="400" src="geocodingnyc1_intmap1.html" frameborder="0" allowfullscreen></iframe>
+<iframe  title="A single address" width="400" height="400" src="geocodingnyc1_intmap1/index.html" frameborder="0" allowfullscreen></iframe>
 
 If we can automate replacement of spaces with the %20, that is hugely helpful for dealing with any amount of addresses, given how many spaces one would encounter. A quick search yielded [this suggestion on StackOverflow](https://stackoverflow.com/questions/40301888/replace-space-with-20-in-r/40301947#40301947): you can just use the 'URLencode' function in base R, as below.
 
@@ -89,6 +89,16 @@ You can inspect the resulting object using functions like `str`, or `View` (and 
 mapview::mapview(geocoded_results)
 ```
 
+```{r,echo=FALSE}
+intmap2 <- mapview::mapview(geocoded_results)
+
+htmlwidgets::saveWidget(intmap2@map, 
+                       "geocodingnyc1_intmap2.html",
+                       selfcontained = TRUE)
+
+```
+
+<iframe  title="Multiple Addresses" width="400" height="400" src="geocodingnyc1_intmap2/index.html" frameborder="0" allowfullscreen></iframe>
 
 Interestingly, you'll notice a bunch of points at Snug Harbor Cultural Center, which presumably share the same address, but are distinct buildings.
 

@@ -37,7 +37,7 @@ tags: ["spatial", "geocoding", "R", "NYC"]
 ## bbox:           xmin: -73.95187 ymin: 40.79249 xmax: -73.95187 ymax: 40.79249
 ## epsg (SRID):    4326
 ## proj4string:    +proj=longlat +datum=WGS84 +no_defs</code></pre>
-<p>We can even plot it on a quick interactive map using the <a href="https://cran.r-project.org/web/packages/mapview/index.html">mapview package</a>. If you click on the point, you’ll see all of the tabular information that comes with the point location. Some things are related to the geocoder/geocoding process, while things prefaced by ‘pad_’ are from the Property Address Directory](<a href="https://www1.nyc.gov/site/planning/data-maps/open-data.page#pad" class="uri">https://www1.nyc.gov/site/planning/data-maps/open-data.page#pad</a>). For example, ‘pad_bbl’ is the Borough, Block and Lot number for the property, and ‘pad_bin’ is the Building ID Number.</p>
+<p>We can even plot it on a quick interactive map using the <a href="https://cran.r-project.org/web/packages/mapview/index.html">mapview package</a>. If you click on the point, you’ll see all of the tabular information that comes with the point location. Some things are related to the geocoder/geocoding process, while things prefaced by ‘pad_’ are from the <a href="https://www1.nyc.gov/site/planning/data-maps/open-data.page#pad">Property Address Directory</a>. For example, ‘pad_bbl’ is the Borough, Block and Lot number for the property, and ‘pad_bin’ is the Building ID Number.</p>
 <pre class="r"><code>mapview::mapview(sf::st_read(&quot;https://geosearch.planninglabs.nyc/v1/search?text=1220%20Fifth%20Ave,%20New%20York,%20NY&quot;))</code></pre>
 <pre><code>## Reading layer `OGRGeoJSON&#39; from data source `https://geosearch.planninglabs.nyc/v1/search?text=1220%20Fifth%20Ave,%20New%20York,%20NY&#39; using driver `GeoJSON&#39;
 ## Simple feature collection with 1 feature and 32 fields
@@ -46,14 +46,7 @@ tags: ["spatial", "geocoding", "R", "NYC"]
 ## bbox:           xmin: -73.95187 ymin: 40.79249 xmax: -73.95187 ymax: 40.79249
 ## epsg (SRID):    4326
 ## proj4string:    +proj=longlat +datum=WGS84 +no_defs</code></pre>
-<pre><code>## Reading layer `OGRGeoJSON&#39; from data source `https://geosearch.planninglabs.nyc/v1/search?text=1220%20Fifth%20Ave,%20New%20York,%20NY&#39; using driver `GeoJSON&#39;
-## Simple feature collection with 1 feature and 32 fields
-## geometry type:  POINT
-## dimension:      XY
-## bbox:           xmin: -73.95187 ymin: 40.79249 xmax: -73.95187 ymax: 40.79249
-## epsg (SRID):    4326
-## proj4string:    +proj=longlat +datum=WGS84 +no_defs</code></pre>
-<iframe title="My Map" width="980" height="400" src="geocodingnyc1_intmap1.html" frameborder="0" allowfullscreen>
+<iframe title="A single address" width="400" height="400" src="geocodingnyc1_intmap1/index.html" frameborder="0" allowfullscreen>
 </iframe>
 <p>If we can automate replacement of spaces with the %20, that is hugely helpful for dealing with any amount of addresses, given how many spaces one would encounter. A quick search yielded <a href="https://stackoverflow.com/questions/40301888/replace-space-with-20-in-r/40301947#40301947">this suggestion on StackOverflow</a>: you can just use the ‘URLencode’ function in base R, as below.</p>
 <pre class="r"><code>sf::st_read(URLencode(&quot;https://geosearch.planninglabs.nyc/v1/search?text=1220 Fifth Ave, New York, NY&quot;))</code></pre>
@@ -66,6 +59,8 @@ tags: ["spatial", "geocoding", "R", "NYC"]
 geocoded_results &lt;- do.call(rbind, lapply(search_urls, sf::st_read))</code></pre>
 <p>You can inspect the resulting object using functions like <code>str</code>, or <code>View</code> (and you can easily see details of the resulting object). And just as before, you can use</p>
 <pre class="r"><code>mapview::mapview(geocoded_results)</code></pre>
+<iframe title="Multiple Addresses" width="400" height="400" src="geocodingnyc1_intmap2/index.html" frameborder="0" allowfullscreen>
+</iframe>
 <p>Interestingly, you’ll notice a bunch of points at Snug Harbor Cultural Center, which presumably share the same address, but are distinct buildings.</p>
 <p>We can put all of the above into a function too:</p>
 <pre class="r"><code>nycgeocode &lt;- function(addresses){
