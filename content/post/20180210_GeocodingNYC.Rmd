@@ -6,6 +6,8 @@ categories: ["Spatial"]
 tags: ["spatial", "geocoding", "R", "NYC"]
 ---
 
+*Edit 12 Feb 2018: Thanks to twitter I learned about being able to call GeoSearch via the [rmapzen R package](https://cran.r-project.org/web/packages/rmapzen/); see the end of this post for more info.*
+
 ## Geocoding
 
 In GIS and various other fields, Geocoding is a common operation. Not familar with Geocoding? Check out this great definition from [Google](https://developers.google.com/maps/documentation/geocoding/start): 
@@ -130,4 +132,24 @@ At this point, I've gone through the basics of getting addresses geocoded in R u
 
 * One would probably want to include functionality to easily join the spatial results with the original addresses provided. For example, if a user has a data table with a column of addresses, along with other fields, it might be helpful to do the geocode and have a result returned with the original fields as well as lat/long, bbl, bin, etc.
 
+## Closing Note
 Overall, this was an interesting exercise to spend a few hours on. I'm excited about the NYC specific geocoder, and as always in trying things out in R, I learned a thing or two. Feel free to reach out with other thoughts on this.
+
+### *Additional Info, added 12 Feb 2018*
+Thanks to Twitter, I learned of the [rmapzen R package](https://cran.r-project.org/web/packages/rmapzen/), which is already set up to use Pelias-based geocoding systems. Below is some sample code for a single address... I'll be curious to explore this more myself. At time of writing, for application with the NYC GeoSearch system, you'll need to use a dev-version from GitHub, as per the `install.packages` line (commented out), which lets you use a custom api. 
+
+```{r}
+# devtools::install_github("tarakc02/rmapzen", ref = "devel") 
+library(rmapzen)
+
+# Specify API
+options(RMAPZEN_SEARCH_HOST = "geosearch.planninglabs.nyc")
+
+#Specify Mapzen key (NA in this case)
+Sys.setenv("MAPZEN_KEY" = NA) 
+
+#Search
+mz_search("1220 Fifth Ave, New York, NY")
+```
+
+
