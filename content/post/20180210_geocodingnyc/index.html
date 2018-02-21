@@ -1,0 +1,111 @@
+---
+title: "Geocoding in NYC from R"
+author: "Mike Treglia"
+date: 2018-02-10
+categories: ["Spatial"]
+tags: ["spatial", "geocoding", "R", "NYC"]
+---
+
+
+
+<p><em>Edit 12 Feb 2018: Thanks to twitter I learned about being able to call GeoSearch via the <a href="https://cran.r-project.org/web/packages/rmapzen/">rmapzen R package</a>; see the end of this post for more info.</em></p>
+<div id="geocoding" class="section level2">
+<h2>Geocoding</h2>
+<p>In GIS and various other fields, Geocoding is a common operation. Not familar with Geocoding? Check out this great definition from <a href="https://developers.google.com/maps/documentation/geocoding/start">Google</a>:</p>
+<blockquote>
+<p>Geocoding is the process of converting addresses (like a street address) into geographic coordinates (like latitude and longitude), which you can use to place markers on a map, or position the map.</p>
+</blockquote>
+<blockquote>
+<p>Reverse geocoding is the process of converting geographic coordinates into a human-readable address.</p>
+</blockquote>
+<p>There are lots of services that functionally do the queries and spatial overlays to get users the information they need. Lots are free, or free up to a certain number of queries, or depending on the type of use (e.g., check out the <a href="https://developers.google.com/maps/documentation/geocoding/intro">Google geocoding API</a>, there are <a href="https://www.openstreetmap.org/">OpenStreetMap</a> tools (e.g., <a href="https://wiki.openstreetmap.org/wiki/Nominatim">Nominatim</a>, and there is a <a href="https://developer.mapquest.com/documentation/geocoding-api/">MapQuest Geocoding API</a>). A tricky thing is that these often serve out the best approximations and aggregations of data for large areas, whether it be globally, nationwide, etc.</p>
+<p>An opensource geocoding project called <a href="http://pelias.io/">Pelias</a> had been developed by the former mapping and navigation company, <a href="https://mapzen.com/">Mapzen</a>, which was dedicated to opendata and opensource tools. Unfortunately the company <a href="https://mapzen.com/blog/shutdown/">shut down recently</a>. However, because their tools were open source, others could pick them up and deploy them fairly readily (realizing it’s often not trivial, but if staff/expertise and infrastructure exist, it’s doable). Thus, the <a href="https://planninglabs.nyc/">NYC Planning Labs</a> contingent of the <a href="http://www1.nyc.gov/site/planning/index.page">NYC Department of City Planning</a> spun up an instance of Pelias, using official NYC data, currently in Beta, called <a href="https://geosearch.planninglabs.nyc/">GeoSearch</a>. (<strong>Note: still being in Beta, at the time of writing, GeoSearch is noted as not yet supported by the NYC Department of City Planning</strong>)</p>
+<p>Being in NYC, sometimes it’s helpful to have an accurate geocoding service. It’s even better if I can use it from tools I already leverage, such as R. Thus, I was curious to see if I could use the NYC GeoSearch tool from R. Here’s my coarse and quick attempt…</p>
+</div>
+<div id="calling-on-nyc-geosearch-through-with-r" class="section level2">
+<h2>Calling on NYC GeoSearch through with R</h2>
+<p>Spatial tools in R have come a long way in recent years. For this work, since it deals with vector data (points), I went right for the <a href="https://cran.r-project.org/web/packages/sf/index.html">sf package</a>. This has been developed pretty recently (i.e., in the last few years) - if you’re using <a href="https://cran.r-project.org/web/packages/sp/index.html">sp</a>, it’s worth a look at sf for additional speed and functionality. If you haven’t used sf it before, you can install it as you would any other package <code>install.packages(&quot;sf&quot;)</code>. Then you can load the package via <code>library(sf)</code>, or call the package explicitly (i.e., <code>sf::[function_name]</code>) as I’ve doen below.</p>
+<p>The function st_read lets you easily read in GeoJSON data, which is what GeoSearch returns. Here’s an initial test, with the address for the Museum of the City of New York, just as a place I’ve been meaning to check out. I just followed the format from an example URL on the <a href="https://geosearch.planninglabs.nyc/docs/">API Docs page</a>. As you’ll see, it throws an error.</p>
+<pre class="r"><code>sf::st_read(&quot;https://geosearch.planninglabs.nyc/v1/search?text=1220 Fifth Ave, New York, NY&quot;)
+
+#GDAL Error 1: HTTP error code : 502Cannot open data source https://geosearch.planninglabs.nyc/v1/search?text=1220 Fifth Ave, New York, NY</code></pre>
+<p>I remembered from some prevoius work that that spaces can cause problems when calling URLs from R. I can’t recall how I came to this conclusion, but ultimately, spaces had to be replaced with ‘%20’ per ASCII encoding. Thus, this works:</p>
+<pre class="r"><code>sf::st_read(&quot;https://geosearch.planninglabs.nyc/v1/search?text=1220%20Fifth%20Ave,%20New%20York,%20NY&quot;)</code></pre>
+<pre><code>## Reading layer `OGRGeoJSON&#39; from data source `https://geosearch.planninglabs.nyc/v1/search?text=1220%20Fifth%20Ave,%20New%20York,%20NY&#39; using driver `GeoJSON&#39;
+## Simple feature collection with 1 feature and 32 fields
+## geometry type:  POINT
+## dimension:      XY
+## bbox:           xmin: -73.95187 ymin: 40.79249 xmax: -73.95187 ymax: 40.79249
+## epsg (SRID):    4326
+## proj4string:    +proj=longlat +datum=WGS84 +no_defs</code></pre>
+<p>We can even plot it on a quick interactive map using the <a href="https://cran.r-project.org/web/packages/mapview/index.html">mapview package</a>. If you click on the point, you’ll see all of the tabular information that comes with the point location. Some things are related to the geocoder/geocoding process, while things prefaced by ‘pad_’ are from the <a href="https://www1.nyc.gov/site/planning/data-maps/open-data.page#pad">Property Address Directory</a>. For example, ‘pad_bbl’ is the Borough, Block and Lot number for the property, and ‘pad_bin’ is the Building ID Number.</p>
+<pre class="r"><code>mapview::mapview(sf::st_read(&quot;https://geosearch.planninglabs.nyc/v1/search?text=1220%20Fifth%20Ave,%20New%20York,%20NY&quot;))</code></pre>
+<pre><code>## Reading layer `OGRGeoJSON&#39; from data source `https://geosearch.planninglabs.nyc/v1/search?text=1220%20Fifth%20Ave,%20New%20York,%20NY&#39; using driver `GeoJSON&#39;
+## Simple feature collection with 1 feature and 32 fields
+## geometry type:  POINT
+## dimension:      XY
+## bbox:           xmin: -73.95187 ymin: 40.79249 xmax: -73.95187 ymax: 40.79249
+## epsg (SRID):    4326
+## proj4string:    +proj=longlat +datum=WGS84 +no_defs</code></pre>
+<iframe title="A single address" width="600" height="400" src="geocodingnyc1_intmap1.html" frameborder="0" allowfullscreen>
+</iframe>
+<p>If we can automate replacement of spaces with the %20, that is hugely helpful for dealing with any amount of addresses, given how many spaces one would encounter. A quick search yielded <a href="https://stackoverflow.com/questions/40301888/replace-space-with-20-in-r/40301947#40301947">this suggestion on StackOverflow</a>: you can just use the ‘URLencode’ function in base R, as below.</p>
+<pre class="r"><code>sf::st_read(URLencode(&quot;https://geosearch.planninglabs.nyc/v1/search?text=1220 Fifth Ave, New York, NY&quot;))</code></pre>
+<p>So now lets try more than one address. I’ll start by making a vector of addresses - some landmarks of NYC, including the aformentioned one. (The others are the Booklyn Museum of Art, Snug Harbor Cultural Center, and the Bronx Zoo.)</p>
+<pre class="r"><code>addresses &lt;- c(&quot;1220 Fifth Ave, New York, NY&quot;, &quot;200 Eastern Pkwy, Brooklyn, NY 11238&quot;, &quot;1000 Richmond Terrace, Staten Island, NY 10301&quot;, &quot;2300 Southern Blvd, Bronx, NY 10460&quot;)</code></pre>
+<p>Next, we need can encode the addresses for the URL; <code>lapply</code> is quick for this type of work, but splits the vector into a list, so the rest of the function (<code>do.call(rbind...</code>) combines it back into a object (a matrix in this case).</p>
+<pre class="r"><code>urladdresses &lt;- do.call(rbind, lapply(addresses, URLencode))</code></pre>
+<p>Next, we can transform all of the addresses to be part of appropriate URLs, and then go through them via the lapply to import the results using <code>sf::st_read</code>. Again, we’re using <code>do.call(rbind...</code> to bring results back together. You’ll see the outputs of <code>st_read</code>; if ou would rather not, you can use <code>sf::read_sf</code> instead with the same results.</p>
+<pre class="r"><code>search_urls &lt;- paste(&quot;https://geosearch.planninglabs.nyc/v1/search?text=&quot;, urladdresses, sep=&quot;&quot;)
+geocoded_results &lt;- do.call(rbind, lapply(search_urls, sf::st_read))</code></pre>
+<p>You can inspect the resulting object using functions like <code>str</code>, or <code>View</code> (and you can easily see details of the resulting object). And just as before, you can use</p>
+<pre class="r"><code>mapview::mapview(geocoded_results)</code></pre>
+<iframe title="Multiple Addresses" width="600" height="400" src="geocodingnyc1_intmap2.html" frameborder="0" allowfullscreen>
+</iframe>
+<p>Interestingly, you’ll notice a bunch of points at Snug Harbor Cultural Center, which presumably share the same address, but are distinct buildings.</p>
+<p>We can put all of the above into a function too:</p>
+<pre class="r"><code>nycgeocode &lt;- function(addresses){
+  urladdresses &lt;- do.call(rbind, lapply(addresses, URLencode))
+  search_urls &lt;- paste(&quot;https://geosearch.planninglabs.nyc/v1/search?text=&quot;, 
+                       urladdresses, sep=&quot;&quot;)
+  geocoded_results &lt;- do.call(rbind, lapply(search_urls, sf::st_read))
+  return(geocoded_results)
+  }
+
+misc_addresses &lt;- nycgeocode(addresses)</code></pre>
+</div>
+<div id="some-known-challenges-and-opportunities-for-working-with-geosearch-from-r" class="section level2">
+<h2>Some Known Challenges and Opportunities for working with GeoSearch from R</h2>
+<p>At this point, I’ve gone through the basics of getting addresses geocoded in R using the NYC GeoSearch API. There are challenges I haven’t quite addressed yet, but worth considering in further development.</p>
+<ul>
+<li><p>First, it’s worth noting that you can Reverse Geocode too, as per some <a href="https://twitter.com/chris_whong/status/961415674416517121">twitter correspondence</a>.</p></li>
+<li><p>I experimented with a few different addresses. One in particular was the Staten Island Zoo, 614 Broadway, Staten Island, NY 10310. Surprisingly, it returned 614 Broadway locations in Brooklyn and Manhattan as well as Staten Island. A <a href="https://geosearch.planninglabs.nyc/v1/search?text=614%20Broadway,%20Staten%20Island,%20NY%2010310">look at the query</a> indicates the borough and postal code were correctly parsed. GeoSearch does note that not all parameters in Pelias are implemented, thus it might be a limitation at this point, though I’ll be curious to dive in further. Note, users can refine searches based on things like proximity to a point, or within a bounding box. <em>I’m still somewhat new to APIs myself, and readily admit that I could just be missing something too</em>.</p></li>
+<li><p>I tried a combination of very clear and direct addresses, as above, as well as some vague ones, like “1 Vanderbilt”. Some different fields were provided/not returned for the specific queries, which caused issues in the <code>rbind</code>. For example, with specific addresses, ‘match_type’ was a field returned that did not come back with the very vague addresses.</p></li>
+<li><p>Regardless of everything else, if the system is given a query for something fairly vague, amidst a query for more specific places, a user would need to parse through which of the options given for a vague location they were looking for. Perhaps this could be done on a map, graphically, using the <a href="https://cran.r-project.org/web/packages/mapedit/index.html">mapedit package</a>. I don’t have another clean way of doing that, but it’s probably something that would need to be thought through if further developing this work in R.</p></li>
+<li><p>One would probably want to include functionality to easily join the spatial results with the original addresses provided. For example, if a user has a data table with a column of addresses, along with other fields, it might be helpful to do the geocode and have a result returned with the original fields as well as lat/long, bbl, bin, etc.</p></li>
+</ul>
+</div>
+<div id="closing-note" class="section level2">
+<h2>Closing Note</h2>
+<p>Overall, this was an interesting exercise to spend a few hours on. I’m excited about the NYC specific geocoder, and as always in trying things out in R, I learned a thing or two. Feel free to reach out with other thoughts on this.</p>
+<div id="additional-info-added-12-feb-2018" class="section level3">
+<h3><em>Additional Info, added 12 Feb 2018</em></h3>
+<p>Thanks to Twitter, I learned of the <a href="https://cran.r-project.org/web/packages/rmapzen/">rmapzen R package</a>, which is already set up to use Pelias-based geocoding systems. Below is some sample code for a single address… I’ll be curious to explore this more myself. At time of writing, for application with the NYC GeoSearch system, you’ll need to use a dev-version from GitHub, as per the <code>install.packages</code> line (commented out), which lets you use a custom api.</p>
+<pre class="r"><code># devtools::install_github(&quot;tarakc02/rmapzen&quot;, ref = &quot;devel&quot;) 
+library(rmapzen)
+
+# Specify API
+options(RMAPZEN_SEARCH_HOST = &quot;geosearch.planninglabs.nyc&quot;)
+
+#Specify Mapzen key (NA in this case)
+Sys.setenv(&quot;MAPZEN_KEY&quot; = NA) 
+
+#Search
+mz_search(&quot;1220 Fifth Ave, New York, NY&quot;)</code></pre>
+<pre><code>## GeoJSON response from Mapzen
+## Attribution info: /v1/attribution 
+## Bounds (lon/lat): (-73.95, 40.79) - (-73.95, 40.79)
+## 1 locations:
+##    1220 FIFTH AVENUE (-73.95, 40.79)</code></pre>
+</div>
+</div>

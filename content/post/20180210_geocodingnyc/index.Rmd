@@ -57,7 +57,7 @@ htmlwidgets::saveWidget(intmap1@map,
                         "geocodingnyc1_intmap1.html", selfcontained = TRUE)
 ```
 
-<iframe  title="A single address" width="600" height="400" src="geocodingnyc1_intmap1/index.html" frameborder="0" allowfullscreen></iframe>
+<iframe  title="A single address" width="600" height="400" src="geocodingnyc1_intmap1.html" frameborder="0" allowfullscreen></iframe>
 
 If we can automate replacement of spaces with the %20, that is hugely helpful for dealing with any amount of addresses, given how many spaces one would encounter. A quick search yielded [this suggestion on StackOverflow](https://stackoverflow.com/questions/40301888/replace-space-with-20-in-r/40301947#40301947): you can just use the 'URLencode' function in base R, as below.
 
@@ -100,7 +100,7 @@ htmlwidgets::saveWidget(intmap2@map,
 
 ```
 
-<iframe  title="Multiple Addresses" width="600" height="400" src="geocodingnyc1_intmap2/index.html" frameborder="0" allowfullscreen></iframe>
+<iframe  title="Multiple Addresses" width="600" height="400" src="geocodingnyc1_intmap2.html" frameborder="0" allowfullscreen></iframe>
 
 Interestingly, you'll notice a bunch of points at Snug Harbor Cultural Center, which presumably share the same address, but are distinct buildings.
 
