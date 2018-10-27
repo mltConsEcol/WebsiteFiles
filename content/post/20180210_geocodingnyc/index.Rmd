@@ -149,7 +149,7 @@ options(RMAPZEN_SEARCH_HOST = "geosearch.planninglabs.nyc")
 Sys.setenv("MAPZEN_KEY" = NA) 
 
 #Search
-mz_search("1220 Fifth Ave, New York, NY")
+#mz_search("1220 Fifth Ave, New York, NY")
 ```
 
 
