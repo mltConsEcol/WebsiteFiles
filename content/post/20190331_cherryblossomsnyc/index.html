@@ -1,0 +1,73 @@
+---
+title: "Cherry Blossom Season in NYC"
+author: "Mike Treglia"
+date: 2019-03-31
+categories: ["Spatial"]
+tags: ["spatial", "sf", "opendata", "R", "NYC", "mapview", "spatialEco", "KDE", "trees"]
+---
+
+
+
+<div id="cherry-blossoms" class="section level2">
+<h2>Cherry Blossoms</h2>
+<p>It’s springtime in New York and cherry trees are starting to bloom. In fact street trees right outside my house in Staten Island are bright pink in flower right now… here’s a photo I took this morning.</p>
+<p><img src="cherrytrees.jpg" /></p>
+<p>Google searches will reveal a few places you can go to see cherry trees with festivals dedicated to them and such. But there are lots of cherry trees along streets and in parks of NYC. As you can see in the <a href="https://tree-map.nycgovparks.org/">NYC Tree Map</a>, there are a few different species of cherry tree that are planted street trees, and if you filter by species to show a Japanese Flowering Cherry variety, you’ll see them.</p>
+<p>Noticing the trees on my block this year, and knowing about some of our Open Data dedicated to street trees in NYC, I decided to make some of my own maps around this using R.</p>
+</div>
+<div id="the-data" class="section level2">
+<h2>The Data</h2>
+<p>NYC has a robust Open Data portal. There are <a href="https://data.cityofnewyork.us/Environment/2015-Street-Tree-Census-Tree-Data/pi5s-9p35">data from the most recent street tree census</a>, <a href="https://www.nycgovparks.org/trees/treescount">TreesCount!</a>, and NYC Parks keeps track of those trees and some others, with updated datasets also on OpenData. In particular, there is a <a href="https://data.cityofnewyork.us/Environment/Forestry-Tree-Points/k5ta-2trh">Tree Points dataset</a> that we’ll use here. This can also be joined via a unique ID to a dataset of planting spaces (noted on the webpages for the datasets). That planting spaces dataset has useful information like whether those trees are street trees or in-park trees, and whether the planting spaces are actively used. But for this work, I’ll only look at the Tree Points data, realizing it contains street trees and some, but not all in-park trees (in more landscaped areas).</p>
+<p>We can download the data directly from with R. At the page with the data I obtained a download link by going to the ‘Export’ tab and hovering over the ‘CSV’ format - in Firefox you can see the download URL at the bottom left of the screen, and by right-clicking and selecting <em>Copy Link Location</em> the link will be pasted to your clipboard.</p>
+<p><img src="screenshot_opendata.png" /></p>
+<p>Here’s the code I used to download the data, using a simple <code>download.file()</code> function in base R. I just wrote the file to a high-level directory, and saved the filename with the date of the data (based on the ‘About’ tab on the OpenData page, this dataset was last updated on March 1st, 2019).</p>
+<pre class="r"><code># Download the csv file from NYC OpenData (https://data.cityofnewyork.us/Environment/Forestry-Tree-Points/k5ta-2trh)
+download.file(&quot;https://data.cityofnewyork.us/api/views/k5ta-2trh/rows.csv?accessType=DOWNLOAD&quot;, &quot;D:/treepoints_20190301.csv&quot;)</code></pre>
+</div>
+<div id="working-with-visualizing-the-data-in-r" class="section level2">
+<h2>Working with &amp; Visualizing the Data in R</h2>
+<p>For this work I brought used the packages <code>sf</code>, <code>dplyr</code>, <code>stringr</code>, and <code>mapview</code>. You can install these by using <code>install.packages(&quot;packagename&quot;)</code> and then load the packages for use using <code>library(packagename)</code>. Multiple packages can be installed at once using syntax like <code>install.packages(c(&quot;packagename1&quot;, &quot;packagename2&quot;)). Later on we'll use the packages</code>spatialEco<code>,</code>sp<code>, and</code>raster`, but if you’re following along I suggest not loading them until those packages are needed (I was having some issues using dplyr functions with sf objects after these and their dependencies were loaded).</p>
+<p>To work with the data as a spatial dataset in R, I first brought the downloaded csv file into R using the base function <code>read.csv()</code>, and then used the sf package to convert it to a Simple Features object. From looking at the data (and the metadata, available from the OpenData ‘About’ tab) I could see the “Geometry” contained the geometry information for each tree point in the form of well-known text. A number of good descriptions are available online; the <a href="https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry">Wikipedia entry</a> on this topic is pretty informative. Many datasets for NYC are provided in NY State Plane - Long Island Zone (<a href="http://spatialreference.org/ref/epsg/nad83-new-york-long-island-ftus/">EPSG 2263</a>) - this appears to be the case for this dataset as well.</p>
+<p>Thus, I assigned a new object, <em>treepoints</em> based on reading the .csv file in, and converting it to an sf (simple features) object using <code>st_as_sf()</code>, using the arguments as below to set the geometry based on the well-known text field, and the appropriate coordinate reference system. Below you see the use of pipes, (%&gt;%) which are convenient ways to string functions together. (There are many good resources online about using pipes in R - if you’re not familiar with them, give a look!)</p>
+<p>Here’s the code I used. <em>Note - this took a few minutes for me on a decent laptop, as the treepoints dataset is quite large with almost 1 Million rows, so you might need to give it some time.</em></p>
+<pre class="r"><code>treepoints &lt;- read.csv(&quot;D:/treepoints_20190301.csv&quot;) %&gt;% st_as_sf(wkt=&quot;Geometry&quot;, crs=2263)</code></pre>
+<p>We can inspect the data as we would most datasets, using <code>str()</code> to view the structure of the dataset, and <code>head()</code> or <code>tail()</code> to view the first or last few rows. We can use plotting functions too. For the default plotting functions with sf objects, it will produce one plot per column. Especially with a big dataset like this it can be time consuming (and it will in fact truncate to a certain number of columns). To specify a column of data to plot for with an sf object, you can use something like: <code>plot(sfobject[,&quot;columnname&quot;])</code>. Though we’ll hold off on plotting until we have the data a bit more refined.</p>
+<p>Based on quick inspection of the data, there are two main useful columns for this - we would generally only care about trees that are living - thus, we can filter based on the ‘TPCondition’ field to exclude dead trees, and we only want cherry trees, so we can filter based on the ‘GenusSpecies’ field. In this case, we’ll only look for species indicated as <em>Prunus serrulata</em>, or the Japanese Flowering Cherry. There are a few varieties of this species, noted with the data in the GenusSpecies field. The code below creates a new object, <em>cherry</em>, in which the data are filtered for where GenusSpecies begins with ‘Prunus serrulata’ and where the TPCondition is NOT ‘Dead’, and returns only the geometry information and the GenusSpecies field. (<code>str_detect()</code> is from the <code>stringr</code> package; the other functions are from <code>dplyr</code>.)</p>
+<pre class="r"><code>cherry &lt;- filter(treepoints, str_detect(GenusSpecies, &#39;^Prunus serrulata&#39;)) %&gt;% filter(TPCondition != &quot;Dead&quot;) %&gt;% select(GenusSpecies)</code></pre>
+<p>This results in only about 35,000 observations. Thus, only the data we want, and while still large, it’s much more manageable than the data we started with. <code>plot(cherry[,&quot;GenusSpecies&quot;])</code> will return something like the below, where the colors correspond to different varieties of <em>Prunus serrulata</em>.</p>
+<p><img src="map1.png" /></p>
+<p>We can also put together a pretty basic but very functional interactive map with the <code>mapview</code> package. Check out the <a href="https://r-spatial.github.io/mapview/">package website</a> for lots of good information. But a basic interactive map can be achieved via <code>mapView(cherry)</code>. The code below sets up a mapview object where each variety that is listed is available as a separate layer (expand the Layers tab on the upper-left). Note, to make this map reasonable for loading the results are truncated to only show 20,000 points. (See the <a href="https://r-spatial.github.io/mapview/articles/articles/mapview_03-options.html">mapview options</a> for more details about adjusting these types of parameters).</p>
+<pre class="r"><code># Create the mapview object 
+mv &lt;- mapView(cherry,zcol=&quot;GenusSpecies&quot;, burst=TRUE, legend=TRUE)
+
+# Show the mapview object
+mv</code></pre>
+<iframe title="mapview map for flowering cherry trees" width="600" height="400" src="cherrytreemapview1.html" frameborder="0" allowfullscreen>
+</iframe>
+</div>
+<div id="density-map-of-flowering-cherry-trees" class="section level2">
+<h2>Density Map of Flowering Cherry Trees</h2>
+<p>While the above map is neat, allowing easy one to zoom in easily across the map and see individual trees, it can be a bit overwhelming with so many points. Thus, we can use a kernel density surface to create a smoothed, continuous surface of “hotspots”. In my opinion this is nicer looking and interpretable - essentially the brighter areas are, the more likely people are to encounter flowering cherry trees. You’ll see there are <em>generally</em> some flowering cherry trees throughout the city, but there are major hotspots out in Queens - in particular, look between JFK Airport and the Belt Parkway. Also, even in areas that don’t generally have a lot of flowering cherry trees, sometimes there are significant stretches of them - look along Park Ave. on the Upper East Side. (See below for more detail on making this.)</p>
+<iframe title="mapview map for KDE of flowering cherry trees" width="600" height="400" src="cherrytreemapviewdensity.html" frameborder="0" allowfullscreen>
+</iframe>
+<p>Here I used the function for creating a simple kernel density estimate in 2-dimensions using the <code>spatialEco</code> package, function <code>sp.kde</code>. Though there are more scientific ways to select an appropriate bandwidth, I’ve experimented with different bandwidth and think a bandwidth of 2,000 ft. might give users useful information in terms of density of flowering cherry trees and settled on 2000 ft in this case. As you’ll see in the code below, I also created a blank raster object for the extent of the NYC borough boundaries, with 100 ft pixels. This involved pulling in the NYC Borough boundaries as an sf object directly from NYC OpenData using the download URL (data available <a href="https://data.cityofnewyork.us/City-Government/Borough-Boundaries/tqmj-j8zm">here</a>) and reprojecting to the same coordinate system as the tree data.</p>
+<pre class="r"><code># Load necessary packages
+library(raster)
+library(spatialEco)
+library(sp)
+
+# Load the borough boundaries from OpenData and transform to appropriate CRS (from Lat/Long WGS84 [EPSG 4362])
+boroughs &lt;- st_read(&quot;https://data.cityofnewyork.us/api/geospatial/tqmj-j8zm?method=export&amp;format=GeoJSON&quot;) %&gt;% st_transform(crs=2263)
+
+# Create raster representing the extent of the borough boundaries at 100 ft. resolution. 
+boroughs.r &lt;- raster(xmn=st_bbox(boroughs)[&quot;xmin&quot;], xmx=st_bbox(boroughs)[&quot;xmax&quot;],ymn=st_bbox(boroughs)[&quot;ymin&quot;], ymx=st_bbox(boroughs)[&quot;ymax&quot;], crs=2263, resolution=100)
+
+# Convert the sf object to an sp object, required by the kde function
+cherry.spdf &lt;- as(cherry, &#39;Spatial&#39;)
+
+# Create the Kernel Density surface.
+cherry.kde &lt;- sp.kde(x = cherry.spdf, bw = 2000, standardize = TRUE, newdata = boroughs.r)
+
+# Plot using plot(cherry.kde)</code></pre>
+<p>Check out the <a href="https://cran.r-project.org/web/packages/spatialEco/spatialEco.pdf">help for <code>spatialEco::sp.kde()</code></a>) for more detail on the options. In this case I used an unweighted KDE, but KDE could have been weighted based on things like condition, size, etc. to give higher importance to different trees.</p>
+</div>
