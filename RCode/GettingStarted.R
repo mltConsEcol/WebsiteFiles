@@ -7,7 +7,7 @@
 install.packages("blogdown")
 blogdown::install_hugo()
 install.packages("later")
-
+library(later)
 
 blogdown::new_site()
 setwd("~/Dropbox/Blogdown_Exploration1/")
@@ -26,3 +26,4 @@ blogdown::serve_site()
 #setwd("BlackburnExperiment_1/")
 blogdown::build_site()
 blogdown::serve_site()
+
