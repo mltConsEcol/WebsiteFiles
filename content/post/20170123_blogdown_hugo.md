@@ -16,7 +16,7 @@ This post is intended to summarize some aspects of Blogdown, Hugo, and getting i
 
 ## Getting Started with Blogdown
 
-Thankfully, I'm far from the first person who's used Blogdown to get a website going, and there's even a [free e-book](https://bookdown.org/yihui/blogdown/) by [Yihui Xie](https://yihui.name), [Amber Thomas](https://amber.rbind.io), and [Alison Presmanes Hill](https://alison.rbind.io) on the topic. There are also numerous blogs, including [this one](https://tclavelle.github.io/blog/blogdown_github/) I've found useful. If you're just getting started, definitely go through the first  chapters of the e-book and try to get something going on your local machine before getting your site online.
+Thankfully, I'm far from the first person who's used Blogdown to get a website going, and there's even a [free e-book](https://bookdown.org/yihui/blogdown/) by [Yihui Xie](https://yihui.name), [Amber Thomas](https://amber.rbind.io), and [Alison Presmanes Hill](https://alison.rbind.io) on the topic. There are also numerous blogs, including [this one](https://www.tylerclavelle.com/code/2017/blogdown/) I've found useful. If you're just getting started, definitely go through the first  chapters of the e-book and try to get something going on your local machine before getting your site online.
 
 ### Choosing a Hugo Theme and Making some Minor Changes
 
