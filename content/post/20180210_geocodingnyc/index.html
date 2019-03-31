@@ -92,9 +92,9 @@ misc_addresses &lt;- nycgeocode(addresses)</code></pre>
 <h3><em>Additional Info, added 12 Feb 2018</em></h3>
 <p>Thanks to Twitter, I learned of the <a href="https://cran.r-project.org/web/packages/rmapzen/">rmapzen R package</a>, which is already set up to use Pelias-based geocoding systems. Below is some sample code for a single address… I’ll be curious to explore this more myself. At time of writing, for application with the NYC GeoSearch system, you’ll need to use a dev-version from GitHub, as per the <code>install.packages</code> line (commented out), which lets you use a custom api.</p>
 <pre class="r"><code># devtools::install_github(&quot;tarakc02/rmapzen&quot;, ref = &quot;devel&quot;) 
-library(rmapzen)
-
-# Specify API
+library(rmapzen)</code></pre>
+<pre><code>## Warning: package &#39;rmapzen&#39; was built under R version 3.5.3</code></pre>
+<pre class="r"><code># Specify API
 options(RMAPZEN_SEARCH_HOST = &quot;geosearch.planninglabs.nyc&quot;)
 
 #Specify Mapzen key (NA in this case)
