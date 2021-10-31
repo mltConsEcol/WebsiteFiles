@@ -4,7 +4,7 @@ languageCode = "en-us"
 title = "Mike Treglia"
 theme = "Blackburn"
 author = "Mike Treglia"
-copyright = "&copy; 2018. All rights reserved."
+copyright = "&copy; Michael L. Treglia.<br>All rights reserved."
 canonifyurls = true
 paginate = 10
 #uglyurls = true
@@ -15,9 +15,12 @@ rssLimit = 10
   tag = "tags"
   topic = "topics"
 
+[markup.goldmark.renderer]
+  unsafe= true
+
 [params]
   # Shown in the home page
-  subtitle = "Spatial Data • Conservation Science • Photography"
+  subtitle = "Spatial Data • Conservation Science"
   brand = "MikeTreglia"
   googleAnalytics = "UA-6888715-1"
   disqus = "miketreglia "
@@ -58,12 +61,12 @@ rssLimit = 10
     weight = 5
     identifier = "code"
     url = "/code/"
-  [[menu.main]]
-    name = "Photography"
-    pre = "<i class='fa fa-camera fa-fw'></i>"
-    weight = 6
-    identifier = "photography"
-    url = "/photography/"
+#  [[menu.main]]
+#    name = "Photography"
+#    pre = "<i class='fa fa-camera fa-fw'></i>"
+#    weight = 6
+#    identifier = "photography"
+#    url = "/photography/"
   [[menu.main]]
     name = "Posts"
     pre = "<i class='fa fa-list fa-fw'></i>"
