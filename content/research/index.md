@@ -8,7 +8,7 @@ description = ""
 [Click here for a list of my peer-reviewed publications](#publications)<br/>
 [Click here for a list of select other works](#other_works)<br/>
 [Click here for my complete CV](../about/TregliaCV.pdf)<br/>
-*Note: If there are any works for which a PDF is not available but you would like a copy, please email me*
+*Note: If there are any works for which a PDF is not available but you would like a copy, please email me.*
 
 ### Current Work
 My current work is broadly focused on using statistical and and GIS tools to inform conservation efforts. Working for the Cities program with The Nature Conservancy in New York, I use available remote sensing data and GIS datasets to characterize dynamics of open space and green space (e.g., tree canopy, green roofs). I primarily work to understand how these assets are distributed across NYC (e.g., are they equitably distributed), how they are changing through time, what types of benefits they are providing (and to whom), and how they can be better distributed or increased to improve the environment in NY for both people and biodiversity. I also work with partners and colleagues to communicate this work to various audiences.
